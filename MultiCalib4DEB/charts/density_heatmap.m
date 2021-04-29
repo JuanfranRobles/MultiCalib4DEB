@@ -148,18 +148,38 @@ function plot_density_heatmap( x, y, name_x, name_y)
     %imagesc(centers{:}, distances); % For distances
     imagesc(centers{:}, density); % For density
     
-    axis xy
-    % Lab names
-    ax1.XLabel.String = ['Parameter ' name_x];
-    ax1.YLabel.String = ['Parameter ' name_y];
-
+    axis xy;
+    
+    % Title label, font size and weigth.
+    title(['Comparison of ' name_x, ' and ' name_y], 'FontSize', 14, 'FontWeight', 'bold');
+    
     % choose a colormap of your liking
     colormap(ax1, 'hot'); % For the heat map
     
     % Working with axes, colors, and colorbars titles before to finish
     set(ax1,'Position', [.17 .11 .685 .815]); 
     cb1 = colorbar(ax1,'Position', [.035 .11 .0675 .815]); 
-    cb1.Title.String = 'Search Space Density';
+
+    % Setting title
+    set(get(cb1, 'title'), 'string', 'Search Space Density', 'FontSize', 10, 'FontWeight', 'bold');
+    
+    % Change the colorbar font size and weight
+    cb1.FontSize = 10;
+    cb1.FontWeight = 'bold';
+    
+    % Get current title position with respect to the colorbar 
+    lbpos = get(cb1,'title');
+    set(lbpos,'units','normalized','position',[0.5,1.03]);
+    
+    % Set the ticks labels font and size
+    ax1.XAxis.FontSize = 10; 
+    ax1.YAxis.FontSize = 10; 
+    ax1.XAxis.FontWeight = 'bold'; 
+    ax1.YAxis.FontWeight = 'bold';
+    
+    % Axis labels, font size and type
+    xlabel(['Parameter ' name_x], 'FontSize', 14, 'FontWeight', 'bold');
+    ylabel(['Parameter ' name_y], 'FontSize', 14, 'FontWeight', 'bold');
     
     % Set the global limits
     set(gca, 'XLim', [min(pts_x); max(pts_x)], 'YLim', [min(pts_y); max(pts_y)], 'YDir', 'normal');
@@ -206,10 +226,20 @@ function plot_density_heatmap_with_scatter( x, y, name_x, name_y, funvals)
     %imagesc(centers{:}, distances); % For distances
     imagesc(centers{:}, density); % For density
     
-    axis xy
-    % Lab names
-    ax1.XLabel.String = ['Parameter ' name_x];
-    ax1.YLabel.String = ['Parameter ' name_y];
+    axis xy;
+    
+    % Title label, font size and weigth.
+    title(['Comparison of ' name_x, ' and ' name_y], 'FontSize', 14, 'FontWeight', 'bold');
+
+    % Set the ticks labels font and size
+    ax1.XAxis.FontSize = 10; 
+    ax1.YAxis.FontSize = 10; 
+    ax1.XAxis.FontWeight = 'bold'; 
+    ax1.YAxis.FontWeight = 'bold';
+    
+    % Axis labels, font size and type
+    xlabel(['Parameter ' name_x], 'FontSize', 14, 'FontWeight', 'bold');
+    ylabel(['Parameter ' name_y], 'FontSize', 14, 'FontWeight', 'bold');
     
     % Maintain the main plt to add the scatter plot to him
     hold on; 
@@ -237,8 +267,24 @@ function plot_density_heatmap_with_scatter( x, y, name_x, name_y, funvals)
     set([ax1,ax2],'Position', [.17 .11 .685 .815]); 
     cb1 = colorbar(ax1,'Position', [.035 .11 .0675 .815]); 
     cb2 = colorbar(ax2,'Position', [.88 .11 .0675 .815], 'YDir', 'reverse');
-    cb1.Title.String = 'Search Space Density';
-    cb2.Title.String = 'Solutions Fitness';
+    cb2.Title.String = '';
+    
+    % Setting the colorbar labales and font options
+    set(get(cb1, 'title'), 'string', 'Search Space Density', 'FontSize', 10, 'FontWeight', 'bold');
+    set(get(cb2, 'title'), 'string', 'Solutions Fitness', 'FontSize', 10, 'FontWeight', 'bold');
+    
+    % Change the colorbar font size and weight
+    cb1.FontSize = 10;
+    cb1.FontWeight = 'bold';
+    cb2.FontSize = 10;
+    cb2.FontWeight = 'bold';
+    
+    % Get current title position with respect to the colorbar 
+    lbpos = get(cb1,'title');
+    set(lbpos,'units','normalized','position',[0.5,1.03]);
+    lbpos = get(cb2,'title');
+    set(lbpos,'units','normalized','position',[0.5,1.03]);
+    
     % Set the global limits
     set(gca, 'XLim', [min(pts_x); max(pts_x)], 'YLim', [min(pts_y); max(pts_y)], 'YDir', 'normal');
     

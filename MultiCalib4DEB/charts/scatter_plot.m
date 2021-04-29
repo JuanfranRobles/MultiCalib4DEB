@@ -67,7 +67,7 @@ elseif nargin == 6
         disp('The sizes for parameter one, two, and fitness values need to be the same');
     else
         if opt == 2
-           scatter_kde(x, y, fitness, name_x, name_y, 'filled', 'MarkerSize', 25);
+           scatter_kde(x, y, fitness, name_x, name_y, 'filled', 'MarkerSize', 30);
         else
             simple_scatter(x, y, fitness, name_x, name_y, 2);
         end
@@ -111,22 +111,44 @@ function simple_scatter(x, y, fitness, name_x, name_y, opt)
     
     % Parameters for the scatter plot.
     if opt==1
-      sz = 25;
+      sz = 30;
     else
        sz = zeros(1, length(fitness));
        for i = 1:length(fitness)
-           sz(i) = (30 - 10) * (neg_fitnss(i) - min(neg_fitnss)) / (max(neg_fitnss) - min(neg_fitnss)) + 10;
+           sz(i) = (35 - 15) * (neg_fitnss(i) - min(neg_fitnss)) / (max(neg_fitnss) - min(neg_fitnss)) + 15;
        end
     end
     % Create the scatter plot.
-    scatter(x, y, sz, fitness, 'filled');
+    scatter(x, y, sz, fitness, 'filled', 'MarkerEdgeColor',[0 0 0], 'LineWidth',1);
     
-    % Lab names
-    ax1.XLabel.String = ['Parameter ' name_x];
-    ax1.YLabel.String = ['Parameter ' name_y];
     colormap(flip(parula(256)));
-    cb = colorbar('YDir', 'reverse');
-    cb.Title.String = 'Solutions Fitness';
+    cb1 = colorbar('YDir', 'reverse');
+    set(get(cb1, 'title'), 'string', 'Solutions fitness value', 'FontSize', 10, 'FontWeight', 'bold');
+    
+    % Change the colorbar font size and weight
+    cb1.FontSize = 10;
+    cb1.FontWeight = 'bold';
+    
+    % Get current title position with respect to the colorbar 
+    lbpos = get(cb1,'title');
+    set(lbpos,'units','normalized','position',[0.5,1.03]);
+    
+    ax = gca;
+    % Setting backgorund color
+    ax.Color = [.7 .7 .7 .1];
+    
+    % Set the ticks labels font and size
+    ax1.XAxis.FontSize = 10; 
+    ax1.YAxis.FontSize = 10; 
+    ax1.XAxis.FontWeight = 'bold'; 
+    ax1.YAxis.FontWeight = 'bold';
+    
+    % Axis labels, font size and type
+    xlabel(['Parameter ' name_x], 'FontSize', 14, 'FontWeight', 'bold');
+    ylabel(['Parameter ' name_y], 'FontSize', 14, 'FontWeight', 'bold');
+    
+    ax1.GridColor = [.0 .0 .0];
+    ax1.GridAlpha = 0.3; % Set's transparency of the grid.
     
     grid on;
 end
@@ -185,18 +207,41 @@ function scatter_kde(x, y, ~, name_x, name_y, varargin)
           MarkerSize = []; 
       end
       % Plot scatter plot
-      scatter(x, y, MarkerSize, c, varargin{:});
+      scatter(x, y, MarkerSize, c, varargin{:}, 'MarkerEdgeColor',[0 0 0], 'LineWidth',1);
     else
       scatter(x, y, [], c);
     end
     
-    axis xy
-    % Lab names
-    ax1.XLabel.String = ['Parameter ' name_x];
-    ax1.YLabel.String = ['Parameter ' name_y];
+    axis xy;
     
     colormap(parula); % For the heat map
     cb = colorbar();
-    cb.Title.String = 'Probability density estimate';
+    set(get(cb, 'title'), 'string', 'Solutions fitness value', 'FontSize', 10, 'FontWeight', 'bold');
+    
+    % Change the colorbar font size and weight
+    cb.FontSize = 10;
+    cb.FontWeight = 'bold';
+    
+    % Get current title position with respect to the colorbar 
+    lbpos = get(cb,'title');
+    set(lbpos,'units','normalized','position',[0.5,1.03]);
+    
+    ax = gca;
+    % Setting backgorund color
+    ax.Color = [.8 .8 .8 .1];
+    
+    % Set the ticks labels font and size
+    ax1.XAxis.FontSize = 10; 
+    ax1.YAxis.FontSize = 10; 
+    ax1.XAxis.FontWeight = 'bold'; 
+    ax1.YAxis.FontWeight = 'bold';
+    
+    % Axis labels, font size and type
+    xlabel(['Parameter ' name_x], 'FontSize', 14, 'FontWeight', 'bold');
+    ylabel(['Parameter ' name_y], 'FontSize', 14, 'FontWeight', 'bold');
+    
+    ax1.GridColor = [.0 .0 .0];
+    ax1.GridAlpha = 0.3; % Set's transparency of the grid.
+    
+    grid on;
 end
-
