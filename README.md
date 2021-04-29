@@ -24,7 +24,7 @@ Then, clone or download the MultiCalib4DEB package from this website.
 
 Once you have both the MultiCalib4DEB toolbox and the MultiCalib4DEB, copy the entire MultiCalib4DEB package into the `lib` directory of DEBtools. 
 
-From here, to use MultiCalib4DEB is as simple as setting the path to the DEBtools toolbox with `cd ../DEBtool_M/` and `addpath(genpath('.')) or directly setting the entire path to the DEBtools toolbox `addpath(genpath('../DEBtool_M'))`. It is also possible to load both the DEBtool_M toolbox and the MultiCalib4DEB package separetely with `addpath(genpath('../DEBtool_M/'))` and `addpath(genpath('../MultiCalib4DEB/'))`.
+From here, to use MultiCalib4DEB is as simple as setting the path to the DEBtools toolbox with `cd ../DEBtool_M/` and `addpath(genpath('.'))` or directly setting the entire path to the DEBtools toolbox `addpath(genpath('../DEBtool_M'))`. It is also possible to load both the DEBtool_M toolbox and the MultiCalib4DEB package separetely with `addpath(genpath('../DEBtool_M/'))` and `addpath(genpath('../MultiCalib4DEB/'))`.
 
 Now you are ready for use the package!
 
