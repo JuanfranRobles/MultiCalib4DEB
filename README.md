@@ -86,7 +86,7 @@ calibration_options('ranges', ranges);
 
 The answer is YES! MultiCalib4DEB has some calibration options both to define and to interact with a calibration process. To do so, you only need to write `calibration_options('option_name', option_value)`. The complete list of cailbration options which MultiCalib4DEB considers is listed below: 
 
-- **'method'**: The algorithm to use for parameter estimation. It can be `'SHADE'` (DEFAULT) or `'L-SHADE'`. Descriptions, code, and tests over the before-mentioned algorithms are available in its [author website]: https://ryojitanabe.github.io/publication.
+- **'method'**: The algorithm to use for parameter estimation. It can be `'SHADE'` (DEFAULT) or `'L-SHADE'`. Descriptions, code, and tests over the before-mentioned algorithms are available in its [author website]:(https://ryojitanabe.github.io/publication).
 - **'num_results'**: The maximum number of results to maintain during the calibration process. Its number could be reduced after the calibration if there exist solutions with the same parameter values. **The minimum value for this option is 100 (DEFAULT) while the maximum is set to 500**. 
 - **'max_fun_evals'**: The maximum number of function evaluations considered for the calibration process. **Its minimum value is 1,000. Its maximum value is 100,000. The DEFAULT value in 10,000**.
 - **'max_calibration_time'**: The maximum time for the calibration process (**in minutes**). **The minimum value for this option is 60 minutes (DEFAULT) and its maximum value is 10,080 minutes (a week)**.
