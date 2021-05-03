@@ -17,8 +17,8 @@ MultiCalib4DEB is a MATALB package which uses multimodal optimization for the ca
 <a name="item2"></a>
 ### How can I use this package?
 * * *
-MultiCalib4DEB is developed for being used together with the DEBtools_M toolbox so, the first thing you need to start working with this package is to download the DEBtools_M (if you have not done it yet). You can do so from [here](https://github.com/add-my-pet/DEBtool_M)
-You have a lot of information about DEBtools toolbox both in [its website](https://add-my-pet.github.io/DEBtool_M/docs/index.html) and in the [DEB Laboratory website] (http://www.bio.vu.nl/thb/deb/deblab/)  
+MultiCalib4DEB is developed for being used together with the DEBtools_M toolbox so, the first thing you need to start working with this package is to download the DEBtools_M (if you have not done it yet). You can do so from [here](https://github.com/add-my-pet/DEBtool_M).
+You have a lot of information about DEBtools toolbox both in [its website](https://add-my-pet.github.io/DEBtool_M/docs/index.html) and in the [DEB Laboratory website](http://www.bio.vu.nl/thb/deb/deblab/)  
 
 Then, clone or download the MultiCalib4DEB package from this website. 
 
