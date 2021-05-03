@@ -182,7 +182,7 @@ load('solutionsSet_Clarias_gariepinus.mat');
 statistics_report = generate_statistics(solutions_set); 
 ~~~
 The result of the last command (fields of the statistical analysis results and its values) can be seen in the next image.
-![image](./MultiCalib4DEB/examples/statistical_analysis_example.png). 
+![image](./MultiCalib4DEB/examples/statistical_analysis_example.png) 
 
 <a name="item6"></a>
 ### Further information
