@@ -135,7 +135,7 @@ MultiCalib4DEB is prepared to work with the above-mentioned information both to 
 Two usage examples of the latter options are: 
 
 - **`plot_chart` example**
-
+~~~
 global pets 
 
 % The pet to calibrate
@@ -150,9 +150,10 @@ load('solutionSet_Clarias_gariepinus_20-Apr-2021_20:42:00.mat');
 
 % Plot the chart!
 plot_chart(solutions_set, 'density_hm', {'kap'; 'E_G'}, true, 20);
+~~~
 
 - **`plot_results` example**
-
+~~~
 global pets 
 
 pets = {'Clarias_gariepinus'}; % The pet to calibrate
@@ -169,7 +170,7 @@ plot_results(solutions_set, solutions_set.results.txtPar, ...,
              solutions_set.results.data, ...,
              solutions_set.results.auxData, metaData, ..., 
              solutions_set.results.txtData, weights, 'Set');
-
+~~~
 The first example shows how to use the `plot_chart` method to plot a heat map for parameters "kap" and "E_G" from a results object over the "Clarias_gariepinus" DEBtools base pet by using the 'density_hm' option. The second example shows how to launch the `plot_results` method to plot a report over the set of solutions from the same results object by using the 'Set' option.
 
 As mentioned at the beginning of this section, it is possible to launch an statistical analysis over the MultiCalib4DEB results. How to use and what to obtain from the MultiCalib4DEB `statistics` module is shown below:
