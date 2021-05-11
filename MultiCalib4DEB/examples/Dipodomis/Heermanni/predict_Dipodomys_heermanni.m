@@ -50,4 +50,13 @@ function [prdData, info] = predict_Dipodomys_heermanni(par, data, auxData)
   prdData.Wwi = Ww_i;
   prdData.Ri = RT_i;
   
+  % univariate data
+  % time-weight 
+  f = f_tW; L_i = f * L_m; L_b = L_m  * get_lb([g k v_Hb],f);
+  rT_B = TC * k_M/ 3/ (1 + f/ g); % 1/d, von Bert growth rate
+  L = L_i - (L_i - L_b) * exp(-rT_B * tW(:,1));
+  EWw = L.^3 * (1 + f * w); % g, weight
+  
+  % pack to output
+  prdData.tW = EWw;
   

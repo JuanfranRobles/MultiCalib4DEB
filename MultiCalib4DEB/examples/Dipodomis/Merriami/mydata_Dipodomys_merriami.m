@@ -7,6 +7,14 @@ metaData.order      = 'Rodentia';
 metaData.family     = 'Heteromyidae';
 metaData.species    = 'Dipodomys_merriami'; 
 metaData.species_en = 'Merriam''s kangaroo rat'; 
+metaData.ecoCode.climate = {'BWh', 'BWk', 'BSh', 'BSk'};
+metaData.ecoCode.ecozone = {'THn'};
+metaData.ecoCode.habitat = {'0iTa', '0iTd', '0iTs'};
+metaData.ecoCode.embryo  = {'Tv'};
+metaData.ecoCode.migrate = {};
+metaData.ecoCode.food    = {'bxM', 'xiHl', 'xiHs'};
+metaData.ecoCode.gender  = {'Dg'};
+metaData.ecoCode.reprod  = {'O'};
 metaData.T_typical  = C2K(37); % K, body temp
 metaData.data_0     = {'tg'; 'ax'; 'ap'; 'am'; 'Wwb'; 'Wwx'; 'Wwi'; 'Ri'}; 
 metaData.data_1     = {}; 
@@ -58,6 +66,15 @@ txtData.label = label;
 txtData.bibkey = bibkey;
 txtData.comment = comment;
 
+%% Links
+metaData.links.id_CoL = '868f1da7a95064a2d3cb7e0e2c5017d7'; % Cat of Life
+metaData.links.id_EoL = '328112'; % Ency of Life
+metaData.links.id_Wiki = 'Dipodomys_merriami'; % Wikipedia
+metaData.links.id_ADW = 'Dipodomys_merriami'; % ADW
+metaData.links.id_Taxo = '62063'; % Taxonomicon
+metaData.links.id_MSW3 = '12700032'; % Mammal Spec World
+metaData.links.id_AnAge = 'Dipodomys_merriami'; % AnAge
+
 %% References
 bibkey = 'Wiki'; type = 'Misc'; bib = ...
 'howpublished = {\url{http://en.wikipedia.org/wiki/Dipodomys_merriami}}';
@@ -69,7 +86,7 @@ bibkey = 'Kooy2010'; type = 'Book'; bib = [ ...  % used in setting of chemical p
 'title  = {Dynamic Energy Budget theory for metabolic organisation}, ' ...
 'publisher = {Cambridge Univ. Press, Cambridge}, ' ...
 'pages = {Table 4.2 (page 150), 8.1 (page 300)}, ' ...
-'howpublished = {\url{http://www.bio.vu.nl/thb/research/bib/Kooy2010.html}}'];
+'howpublished = {\url{../../../bib/Kooy2010.html}}'];
 metaData.biblist.(bibkey) = ['''@', type, '{', bibkey, ', ' bib, '}'';'];
 %
 bibkey = 'AnAge'; type = 'Misc'; bib = ...

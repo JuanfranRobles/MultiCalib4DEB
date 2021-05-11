@@ -1,4 +1,4 @@
-%% Calibrates the Dipodomis Deserti pet using L-SHADE multimodal algorithm
+%% Calibrates the Clarias Gariepinus pet using SHADE multimodal algorithm
 %% 
 
 close all; 
@@ -12,18 +12,19 @@ check_my_pet(pets);
 % Setting estimation options such as: 
 % Loss function, method to use, filter, etc
 estim_options('default');
-estim_options('pars_init_method', 1);
-% Setting 'mm' (mmultimodal) for calibration 
-estim_options('method', 'mm1');
 % Setting calibration options (number of runs, maximum function
 % evaluations, ...) 
 calibration_options('default'); 
+% Setting 'mm' (mmultimodal) for calibration 
+calibration_options('method', 'mm1');
 % Set number of evaluations
 calibration_options('max_fun_evals', 20000);
+% Set the total time in minutes
+%calibration_options('max_calibration_time', 180);
 % Set value for individual generation ranges
-calibration_options('gen_factor', 0.9); 
+calibration_options('gen_factor', 0.3); 
 % Set if the initial guest from data is introduced into initial population
-calibration_options('add_initial', 1); 
+calibration_options('add_initial', 0); 
 % Set if the best individual found will be refined with a local search
 % method
 calibration_options('refine_best', 1);
@@ -35,5 +36,6 @@ calibration_options('bounds_from_ind', 1);
 % Activate verbose
 calibration_options('verbose', 1); 
 calibration_options('verbose_options', 8); 
+calibration_options('results_output', 'Basic');
 % Calibrate
-estim_pars
+[best, info, out, best_favl] = calibrate;

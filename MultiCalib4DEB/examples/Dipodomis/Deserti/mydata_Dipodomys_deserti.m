@@ -6,6 +6,14 @@ metaData.order      = 'Rodentia';
 metaData.family     = 'Heteromyidae';
 metaData.species    = 'Dipodomys_deserti'; 
 metaData.species_en = 'Desert kangaroo rat'; 
+metaData.ecoCode.climate = {'BWh', 'BWk', 'BSh', 'BSk'};
+metaData.ecoCode.ecozone = {'THn'};
+metaData.ecoCode.habitat = {'0iTa', '0iTd'};
+metaData.ecoCode.embryo  = {'Tv'};
+metaData.ecoCode.migrate = {};
+metaData.ecoCode.food    = {'bxM', 'xiHl', 'xiHs'};
+metaData.ecoCode.gender  = {'Dg'};
+metaData.ecoCode.reprod  = {'O'};
 metaData.T_typical  = C2K(36.8); % K, body temp
 metaData.data_0     = {'tg'; 'ax'; 'ap'; 'am'; 'Wwb'; 'Wwx'; 'Wwi'; 'Ri'}; 
 metaData.data_1     = {}; 
@@ -58,6 +66,15 @@ txtData.label = label;
 txtData.bibkey = bibkey;
 txtData.comment = comment;
 
+%% Links
+metaData.links.id_CoL = 'aeaca9e2da0962afc26ccd16e320346f'; % Cat of Life
+metaData.links.id_EoL = '328080'; % Ency of Life
+metaData.links.id_Wiki = 'Dipodomys_deserti'; % Wikipedia
+metaData.links.id_ADW = 'Dipodomys_deserti'; % ADW
+metaData.links.id_Taxo = '62059'; % Taxonomicon
+metaData.links.id_MSW3 = '12700014'; % Mammal Spec World
+metaData.links.id_AnAge = 'Dipodomys_deserti'; % AnAge
+
 %% References
 bibkey = 'Wiki'; type = 'Misc'; bib = ...
 'howpublished = {\url{http://en.wikipedia.org/wiki/Dipodomys_deserti}}';
@@ -69,7 +86,7 @@ bibkey = 'Kooy2010'; type = 'Book'; bib = [ ...  % used in setting of chemical p
 'title  = {Dynamic Energy Budget theory for metabolic organisation}, ' ...
 'publisher = {Cambridge Univ. Press, Cambridge}, ' ...
 'pages = {Table 4.2 (page 150), 8.1 (page 300)}, ' ...
-'howpublished = {\url{http://www.bio.vu.nl/thb/research/bib/Kooy2010.html}}'];
+'howpublished = {\url{../../../bib/Kooy2010.html}}'];
 metaData.biblist.(bibkey) = ['''@', type, '{', bibkey, ', ' bib, '}'';'];
 %
 bibkey = 'AnAge'; type = 'Misc'; bib = ...
