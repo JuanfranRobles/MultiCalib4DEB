@@ -19,6 +19,8 @@ calibration_options('default');
 calibration_options('method', 'mm1');
 % Set number of evaluations
 calibration_options('max_fun_evals', 20000);
+% Set the maximum number of solutions
+calibration_options('num_results', 200);
 % Set the total time in minutes
 %calibration_options('max_calibration_time', 180);
 % Set value for individual generation ranges
