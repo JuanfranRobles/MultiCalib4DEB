@@ -25,7 +25,11 @@ function calibration_options (key, val)
 %    'method': 
 %      'mm1' - use Nelder-Mead method; 
 %      'mm2' - do not estimate;
-%
+%     
+%    'num_results': The size for the multimodal algorithm's population.
+%                   If it is not defined then sets the values recommended by 
+%                   the author, which are 100 for SHADE ('mm1') and 
+%                   18 * problem size for L-SHADE.
 %    'gen_factor': percentage to build the ranges for initializing the 
 %                  first population of individuals.
 %
@@ -131,7 +135,10 @@ function calibration_options (key, val)
    switch key 
       case {'default', ''}
          method = 'mm1'; % Use SHADE for parameter estimation
-         num_results = 300; % The size for the multimodal algorithm's population. 
+         num_results = 100; % The size for the multimodal algorithm's population.
+                          % If not defined then sets the values recommended by
+                          % the author, which are 100 for SHADE ('mm1') and
+                          % 18 * problem size for L-SHADE.
          gen_factor = 0.5; % Percentage bounds for individual 
                            % initialization. (e.g. A value of 0.9 means
                            % that, for a parameter value of 1, the range
@@ -204,8 +211,8 @@ function calibration_options (key, val)
                fprintf('num_results = unknown \n');
             end	      
          else
-            if num_results < 300
-               num_results = 300;
+            if num_results < 100 
+               num_results = 100;
             else
                num_results = val;
             end
