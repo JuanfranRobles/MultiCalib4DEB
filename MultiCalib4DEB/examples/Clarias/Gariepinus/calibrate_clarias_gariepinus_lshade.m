@@ -12,17 +12,19 @@ check_my_pet(pets);
 % Setting estimation options such as: 
 % Loss function, method to use, filter, etc
 estim_options('default');
-% Setting 'mm' (mmultimodal) for calibration 
-estim_options('method', 'mm1');
+
+estim_options();
 % Setting calibration options (number of runs, maximum function
 % evaluations, ...) 
 calibration_options('default'); 
+% Setting 'mm' (mmultimodal) for calibration 
+calibration_options('method', 'mm2');
 % Set number of runs
 calibration_options('num_runs', 1);
 % Set number of evaluations
 calibration_options('max_fun_evals', 10000);
 % Set value for individual generation ranges
-calibration_options('gen_factor', 0.05); 
+calibration_options('gen_factor', 0.3); 
 % Set if the initial guest from data is introduced into initial population
 calibration_options('add_initial', 1); 
 % If refine the indivuduals of the first population using local search
