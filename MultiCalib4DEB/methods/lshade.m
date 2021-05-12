@@ -5,7 +5,7 @@
 function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, weights, filternm)
    % created 2020/02/15 by Juan Francisco Robles; 
    % modified 2020/02/17 by Juan Francisco Robles, 2020/02/20, 2020/02/21,
-   % 2020/02/24, 2020/02/26, 2020/02/27
+   % 2020/02/24, 2020/02/26, 2020/02/27, 2021/03/12,2021/03/22, 2021/05/11
    %   
 
    %% Syntax
@@ -53,7 +53,7 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
 
    global lossfunction max_fun_evals max_calibration_time num_runs add_initial  
    global pop_size refine_running refine_run_prob refine_best refine_firsts
-   global verbose verbose_options random_seeds
+   global verbose verbose_options random_seeds num_results
 
    % Option settings
    % initiate info setting
@@ -109,9 +109,15 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
    arc_rate = 1.5;
    memory_size = 5;
    
-
+   %% Population y memory size
+   if 18 * problem_size > num_results
+      pop_size = 18 * problem_size;
+   else
+      pop_size = num_results;
+   end
+   
    %% Result file variables 
-   solution_set.NP = 18 * problem_size;
+   solution_set.NP = pop_size;
    solution_set.pop = zeros(0, problem_size);
    solution_set.funvalues = zeros(0, 1); 
    solution_set.parnames = parnm(index); % Calibrated parameter names
@@ -141,7 +147,11 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
       rng(random_seeds(run), 'twister'); 
       
       %% Population y memory size
-      pop_size = 18 * problem_size;
+      if 18 * problem_size > num_results
+         pop_size = 18 * problem_size;
+      else
+         pop_size = num_results;
+      end
       max_pop_size = pop_size;
       min_pop_size = 4.0; 
       
@@ -240,7 +250,7 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
       memory_pos = 1;
 
       %% Main loop
-      while nfes < max_nfes & (toc(run_time_start)/60) < max_calibration_time
+      while nfes < max_nfes && (toc(run_time_start)/60) < max_calibration_time
          fprintf('Num func evals %d | Total progress %d \n', nfes, (nfes/max_nfes)*100.0);
          pop = popold; % the old population becomes the current population
          [temp_fit, sorted_index] = sort(fitness, 'ascend');
@@ -479,6 +489,18 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
                archive.pop = archive.pop(rndpos, :);
             end
          end
+         % Check if stopping criteria has been achieved
+         if max_calibration_time > 0
+            current_time = round(toc(time_start)/60);
+            if current_time > max_calibration_time; break; end
+            if verbose
+               fprintf('Time accomplished: %d of %d minutes (%d %%) \n', ...,
+                  current_time, max_calibration_time, ..., 
+                  round((current_time/max_calibration_time)*100.0));
+            end
+         else
+            if nfes > max_nfes; break; end
+         end
       end
 
       if verbose
@@ -497,7 +519,7 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
       if refine_best
          fprintf('Refining best individual found using local search \n');
          [q, ~, fval] = local_search('predict_pets', q, data, auxData, weights, filternm);
-         while (1.0 - (fval / bsf_fval)) > 0.001
+         while (1.0 - (fval / bsf_fval)) > 0.0
             if verbose
                % Print the best and finish
                fprintf('Improved from = %1.8e to %1.8e \n', bsf_fval, fval);

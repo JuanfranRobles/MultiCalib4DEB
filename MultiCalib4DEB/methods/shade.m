@@ -1,11 +1,12 @@
 %% lshade
 % Finds parameter values for a pet that minimizes the lossfunction using the 
-% Linear Succes History Adaptation of Differential Evolution (SHADE) using a filter
+% Succes History Adaptation of Differential Evolution (SHADE) using a filter
 %%
 function [q, info, solution_set, bsf_fval] = shade(func, par, data, auxData, weights, filternm)
    % created 2020/02/15 by Juan Francisco Robles; 
    % modified 2020/02/17 by Juan Francisco Robles, 2020/02/20, 2020/02/21,
-   % 2020/02/24, 2020/02/26, 2020/02/27
+   % 2020/02/24, 2020/02/26, 2020/02/27, 2021/01/14, 2021/03/12,
+   % 2021/03/22, 2021/05/11
    %   
 
    %% Syntax
@@ -13,10 +14,10 @@ function [q, info, solution_set, bsf_fval] = shade(func, par, data, auxData, wei
 
    %% Description
    % Finds parameter values for a pet that minimizes the lossfunction using the 
-   % L-SHADE multimodal algorithm using a filter.
+   % SHADE multimodal algorithm using a filter.
    % The filter gives always a pass in the case that no filter has been selected 
    % in <estim_options.html *estim_options*>.
-   % The values for L-SHADE initialization can be modifyed by editing the file
+   % The values for SHADE initialization can be modifyed by editing the file
    % <calibration_options.html> *calibration_options*>
    %
    % Input
@@ -40,14 +41,14 @@ function [q, info, solution_set, bsf_fval] = shade(func, par, data, auxData, wei
    % Set options with <calibration_options.html *calibration_options*>.
    % The number of fields in data is variable.
    %%%%%%%%%%%%%%%%%%%
-   %% This package is a MATLAB/Octave source code of L-SHADE which is an improved version of SHADE 1.1.
+   %% This package is a MATLAB/Octave source code of SHADE which is an improved version of SHADE 1.1.
    %% 
    %% The original code of this algorithm was taken from: https://sites.google.com/site/tanaberyoji/software
    %%
    %% Note that this source code is transferred from the C++ source code version.
-   %% About L-SHADE, please see following papers:
+   %% About SHADE, please see following papers:
    %%
-   %% * Ryoji Tanabe and Alex Fukunaga: Improving the Search Performance of SHADE Using Linear Population Size Reduction,  Proc. IEEE Congress on Evolutionary Computation (CEC-2014), Beijing, July, 2014.
+   %% * Ryoji Tanabe and Alex Fukunaga: Success-History Based Parameter Adaptation for Differential Evolution, Proc. IEEE Congress on Evolutionary Computation (CEC-2013).
    %%
    %%%%%%%%%%%%%%%%%%% 
 
@@ -101,17 +102,17 @@ function [q, info, solution_set, bsf_fval] = shade(func, par, data, auxData, wei
    qvec = cell2mat(struct2cell(q));
    pen_val = 1e10;
 
-   %%  Parameter settings for L-SHADE
+    %% Population size
+   pop_size = num_results;
+   
+   %%  Parameter settings for SHADE
    problem_size = length(index);
    max_nfes = max_fun_evals;
    ls_nfes = max_nfes * 0.7; 
    p_best_rate = 0.11;
    arc_rate = 1.5;
-   memory_size = 5;
-   
-   %% Population size
-   % pop_size = 18 * problem_size;
-   pop_size = num_results;
+   memory_size = problem_size;
+
    %% Result file variables 
    solution_set.NP = pop_size;
    solution_set.pop = zeros(0, problem_size);
@@ -489,7 +490,7 @@ function [q, info, solution_set, bsf_fval] = shade(func, par, data, auxData, wei
       if refine_best
          fprintf('Refining best individual found using local search \n');
          [q, ~, fval] = local_search('predict_pets', q, data, auxData, weights, filternm);
-         while (1.0 - (fval / bsf_fval)) > 0.001
+         while (1.0 - (fval / bsf_fval)) > 0.0
             if verbose
                % Print the best and finish
                fprintf('Improved from = %1.8e to %1.8e \n', bsf_fval, fval);

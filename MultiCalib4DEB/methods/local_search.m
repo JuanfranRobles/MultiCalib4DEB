@@ -304,12 +304,9 @@ function [q, itercount, fval] = local_search(func, par, data, auxData, weights, 
   fval = min(fv); 
   if func_evals >= max_fun_evals
     if report > 0
-      fprintf(['No convergences with ', ...
-    	num2str(max_fun_evals), ' function evaluations\n']);
     end
   elseif itercount >= max_step_number 
     if report > 0
-      fprintf(['No convergences with ', num2str(max_step_number), ' steps\n']);
     end
   else
     if report > 0
