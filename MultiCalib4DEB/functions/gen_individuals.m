@@ -134,9 +134,16 @@ function [inds, bounds] = gen_individuals(func, par, data, auxData, filternm)
       % parameter and then change the value for its minimum and maximum
       % range. 
       for i = 1:n_calibpar
-         if (~isempty(find(strcmp(psdnm, calibnm(i)), 1)) && isempty(find(par_range_names, calibnm(i), 1)))
-            par_maxs(i) = pseudodata.(char(calibnm(i))) / gen_factor;
-            par_mins(i) = pseudodata.(char(calibnm(i))) * gen_factor;
+         if ~isempty(fieldnames(ranges))
+            if (~isempty(find(strcmp(psdnm, calibnm(i)), 1)) && isempty(find(par_range_names, calibnm(i), 1)))
+               par_maxs(i) = pseudodata.(char(calibnm(i))) / gen_factor;
+               par_mins(i) = pseudodata.(char(calibnm(i))) * gen_factor;
+            end
+         else
+            if (~isempty(find(strcmp(psdnm, calibnm(i)), 1)))
+               par_maxs(i) = pseudodata.(char(calibnm(i))) / gen_factor;
+               par_mins(i) = pseudodata.(char(calibnm(i))) * gen_factor;
+            end
          end
       end
    end
