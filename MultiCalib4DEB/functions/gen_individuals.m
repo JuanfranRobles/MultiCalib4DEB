@@ -92,8 +92,8 @@ function [inds, bounds] = gen_individuals(func, par, data, auxData, filternm)
 
    % Setting default maximums and minimums for random individual
    % initialization ranges. 
-   par_maxs = qvec(index) / gen_factor;
-   par_mins = qvec(index) * gen_factor;
+   par_maxs = qvec(index) * (1.0 + gen_factor);
+   par_mins = qvec(index) * (1.0 - gen_factor);
 
    % Check if some range is defined from calibration options and set the
    % range if true.
@@ -136,13 +136,13 @@ function [inds, bounds] = gen_individuals(func, par, data, auxData, filternm)
       for i = 1:n_calibpar
          if ~isempty(fieldnames(ranges))
             if (~isempty(find(strcmp(psdnm, calibnm(i)), 1)) && isempty(find(par_range_names, calibnm(i), 1)))
-               par_maxs(i) = pseudodata.(char(calibnm(i))) / gen_factor;
-               par_mins(i) = pseudodata.(char(calibnm(i))) * gen_factor;
+               par_maxs(i) = pseudodata.(char(calibnm(i))) * (1.0 + gen_factor);
+               par_mins(i) = pseudodata.(char(calibnm(i))) * (1.0 - gen_factor);
             end
          else
             if (~isempty(find(strcmp(psdnm, calibnm(i)), 1)))
-               par_maxs(i) = pseudodata.(char(calibnm(i))) / gen_factor;
-               par_mins(i) = pseudodata.(char(calibnm(i))) * gen_factor;
+               par_maxs(i) = pseudodata.(char(calibnm(i))) * (1.0 + gen_factor);
+               par_mins(i) = pseudodata.(char(calibnm(i))) * (1.0 - gen_factor);
             end
          end
       end
@@ -160,9 +160,10 @@ function [inds, bounds] = gen_individuals(func, par, data, auxData, filternm)
    % less two. Thus, the two last individuals of population will be the
    % initial guest and the refined one
    if add_initial
-      inds_to_gen = pop_size-2;
-   else
       inds_to_gen = pop_size-1;
+      inds(inds_to_gen+1,:) = qvec(index);
+   else
+      inds_to_gen = pop_size;
    end
 
    for ind = 1:inds_to_gen
@@ -201,6 +202,4 @@ function [inds, bounds] = gen_individuals(func, par, data, auxData, filternm)
          end
       end
    end
-   % Set the basic individual values as last individual and finish
-   inds(inds_to_gen+1,:) = qvec(index);
 end
