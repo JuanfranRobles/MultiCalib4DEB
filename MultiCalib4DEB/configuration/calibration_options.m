@@ -48,6 +48,9 @@ function calibration_options (key, val)
 %    'add_initial': if the initial individual is added in the first
 %                   population.
 %
+%    'refine_initial': if the initial individual is refined using Nelder
+%                    Mead.
+%     
 %    'refine_best': if the best individual found is refined using Nelder
 %                    Mead.
 %     
@@ -123,8 +126,8 @@ function calibration_options (key, val)
 
    % Global varaibles
    global method num_results gen_factor bounds_from_ind max_fun_evals 
-   global max_calibration_time  num_runs add_initial  refine_best   
-   global refine_running refine_run_prob refine_firsts 
+   global max_calibration_time  num_runs add_initial refine_initial  
+   global refine_best  refine_running refine_run_prob refine_firsts 
    global verbose verbose_options random_seeds ranges 
    global results_output results_filename save_results
    
@@ -154,6 +157,9 @@ function calibration_options (key, val)
                               % pseudo data values. 
          add_initial = 0; % If to add an invidivual taken from initial 
                           % data into first population.
+         refine_initial = 0; % If a refinement is applied to the initial 
+                             % individual of the population (only if it the
+                             % 'add_initial' option is activated)
          refine_best = 0; % If a local search is applied to the best 
                           % individual found. 
          refine_running = 0; % If to apply local search to some individuals
@@ -226,11 +232,11 @@ function calibration_options (key, val)
             end	      
          else
             if val >= 1.0
-               val = .99;
+               val = 0.99;
             elseif val <= 0.0
                val = .01;
             end
-            gen_factor = 1 - val;
+            gen_factor = val;
          end
       case 'bounds_from_ind'
          if ~exist('val','var')
@@ -281,6 +287,16 @@ function calibration_options (key, val)
             end	      
          else
             refine_firsts = val;
+         end
+      case 'refine_initial'
+         if ~exist('val','var')
+            if numel(refine_initial) ~= 0
+               fprintf(['refine_initial = ', num2str(refine_initial),' \n']);  
+            else
+               fprintf('refine_initial = unknown \n');
+            end	      
+         else
+            refine_initial = val;
          end
       case 'refine_best'
          if ~exist('val','var')
@@ -455,6 +471,11 @@ function calibration_options (key, val)
          else
             fprintf('refine_firsts = unkown \n');
          end
+         if numel('refine_initial') ~= 0
+            fprintf(['refine_initial = ', num2str(refine_initial),' \n']);
+         else
+            fprintf('refine_initial = unkown \n');
+         end
          if numel(refine_best) ~= 0
             fprintf(['refine_best = ', num2str(refine_best),' \n']);
          else
@@ -492,4 +513,3 @@ function calibration_options (key, val)
          end
    end
 end
-
