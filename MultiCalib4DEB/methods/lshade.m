@@ -51,7 +51,7 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
    %%
    %%%%%%%%%%%%%%%%%%% 
 
-   global lossfunction max_fun_evals max_calibration_time num_runs add_initial  
+   global lossfunction max_fun_evals max_calibration_time num_runs refine_initial  
    global pop_size refine_running refine_run_prob refine_best refine_firsts
    global verbose verbose_options random_seeds num_results
 
@@ -164,7 +164,7 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
       [popold, ranges] = gen_individuals(func, par, data, auxData, filternm); 
 
       % Add refined guest if setted into calibration options
-      if add_initial
+      if refine_initial
          fprintf('Launching local search over initial individual \n');
          first = 1;
          better = 1;
@@ -491,12 +491,18 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
          end
          % Check if stopping criteria has been achieved
          if max_calibration_time > 0
-            current_time = round(toc(time_start)/60);
+            current_time = round(toc(run_time_start)/60);
             if current_time > max_calibration_time; break; end
             if verbose
-               fprintf('Time accomplished: %d of %d minutes (%d %%) \n', ...,
+               fprintf('Time accomplished: %d of %d minutes (%d %%) for the %d run \n', ...,
                   current_time, max_calibration_time, ..., 
-                  round((current_time/max_calibration_time)*100.0));
+                  round((current_time/max_calibration_time)*100.0), run);
+              if num_runs > 1
+                  current_time = round(toc(time_start)/60);
+                  fprintf('The time accomplished for the whole calibration: %d of %d minutes (%d %%) \n', ...,
+                      current_time, max_calibration_time*num_runs, ..., 
+                      round((current_time/(max_calibration_time*num_runs))*100.0));
+               end
             end
          else
             if nfes > max_nfes; break; end
@@ -519,7 +525,7 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
       if refine_best
          fprintf('Refining best individual found using local search \n');
          [q, ~, fval] = local_search('predict_pets', q, data, auxData, weights, filternm);
-         while (1.0 - (fval / bsf_fval)) > 0.0
+         while (1.0 - (fval / bsf_fval)) > 0.0000001
             if verbose
                % Print the best and finish
                fprintf('Improved from = %1.8e to %1.8e \n', bsf_fval, fval);
@@ -543,7 +549,7 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
    tEnd = tEnd(3:6);
    info.run_time = tEnd;
    %% Add best to solutions archive and finish
-   if num_runs > 0
+   if num_runs > 0 && refine_best
       aux = q; 
       aux = rmfield(aux, 'free');
       auxvec = cell2mat(struct2cell(aux));
