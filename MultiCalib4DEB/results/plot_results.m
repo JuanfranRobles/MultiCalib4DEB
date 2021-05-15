@@ -314,7 +314,7 @@ function plotResultsSet(solutions_set, data, auxData, metaData, txtData, weights
                   plotData.Color = [0.5, 0.5, 0.5, 0.5];
                else
                   pBest = plot(xPred, yPred, 'black', xData, yData, '.b', 'Markersize',5, 'LineWidth', 1); 
-                  lgd = legend(pBest, {'observed', 'predicted'}, 'Location', 'northwest');
+                  lgd = legend(pBest, {'predicted', 'observed'}, 'Location', 'northwest');
                   lgd.FontSize = 10;
                end
             elseif strcmp(getfield(univarX, fieldsInCells{1}{:}), 'usr')
