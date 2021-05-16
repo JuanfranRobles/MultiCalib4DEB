@@ -251,7 +251,7 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
 
       %% Main loop
       while nfes < max_nfes && (toc(run_time_start)/60) < max_calibration_time
-         fprintf('Num func evals %d | Total progress %d \n', nfes, (nfes/max_nfes)*100.0);
+         fprintf('Num func evals %d | Total progress %.2f %%\n', nfes, (nfes/max_nfes)*100.0);
          pop = popold; % the old population becomes the current population
          [temp_fit, sorted_index] = sort(fitness, 'ascend');
 
@@ -289,6 +289,7 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
 
          r0 = 1 : pop_size;
          popAll = [pop; archive.pop];
+         
          [r1, r2] = gnR1R2(pop_size, size(popAll, 1), r0);
 
          pNP = max(round(p_best_rate * pop_size), 2); %% choose at least two best solutions
@@ -507,6 +508,8 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
          else
             if nfes > max_nfes; break; end
          end
+         % Update the final solutions set
+         solution_set = updateArchive(solution_set, popold, fitness);
       end
 
       if verbose
@@ -537,8 +540,7 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
          end
       end
       % Update best solution set
-      solution_set = updateArchive(solution_set, popold, fitness);
-      solution_set.NP = length(solution_set.pop);
+      %solution_set.NP = length(solution_set.pop);
       %% Setting run information
       tEnd = datevec(toc(run_time_start)./(60*60*24));
       tEnd = tEnd(3:6);
@@ -549,11 +551,10 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
    tEnd = tEnd(3:6);
    info.run_time = tEnd;
    %% Add best to solutions archive and finish
-   if num_runs > 0 && refine_best
+   if refine_best
       aux = q; 
       aux = rmfield(aux, 'free');
       auxvec = cell2mat(struct2cell(aux));
       solution_set = updateArchive(solution_set, auxvec(index)', fval);
-      solution_set.NP = length(solution_set.pop);
    end
 end
