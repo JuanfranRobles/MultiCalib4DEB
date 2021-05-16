@@ -244,7 +244,7 @@ function [q, info, solution_set, bsf_fval] = shade(func, par, data, auxData, wei
 
       %% Main loop
       while nfes < max_nfes
-         fprintf('Num func evals %d \n', nfes);
+         fprintf('Num func evals %d | Total progress %.2f %%\n', nfes, (nfes/max_nfes)*100.0);
          pop = popold; % the old population becomes the current population
          [temp_fit, sorted_index] = sort(fitness, 'ascend');
 
@@ -520,7 +520,7 @@ function [q, info, solution_set, bsf_fval] = shade(func, par, data, auxData, wei
    tEnd = tEnd(3:6);
    info.run_time = tEnd;
    %% Add best to solutions archive and finish
-   if num_runs > 0 && refine_best
+   if refine_best
       aux = q; 
       aux = rmfield(aux, 'free');
       auxvec = cell2mat(struct2cell(aux));
