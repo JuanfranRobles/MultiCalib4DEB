@@ -4,7 +4,8 @@
 %%
 function [best_sol, info, solutions_set, best_fval] = calibrate
    % created 2020/03/07 by Juan Francisco Robles
-  
+   % edited 2021/01/15, 2021/01/19, 2021/03/14, 2021/03/22, 2021/05/12,
+   % 2021/05/18 by Juan Francisco Robles
    %% Syntax 
    % [pars, info, outcome, best_fval] = <../calibrate.m *calibrate*>
 
@@ -148,7 +149,13 @@ function [best_sol, info, solutions_set, best_fval] = calibrate
    if exist('solutions_set', 'var') && ~isempty(solutions_set)
       if strcmp(results_filename, 'Default') ~= 0
          dtime = strsplit(datestr(datetime), ' ');
-         filename = strcat('solutionSet_', pets{1}, '_', string(dtime(1)), '_', string(dtime(2))); % Filename with calibrated pet name and date. 
+         % Changing ':' time separators to h/m/s
+         auxtime = char(string(dtime(2)));
+         auxtime(3) = 'h';
+         auxtime(6) = 'm';
+         auxtime(9) = 's';
+         % Setting filename
+         filename = strcat('solutionSet_', pets{1}, '_', string(dtime(1)), '_', string(auxtime)); % Filename with calibrated pet name and date. 
       else
          filename = results_filename;
       end
