@@ -1,6 +1,5 @@
-## - MultiCalib4DEB -
-- - -
 ![image](./MultiCalib4DEB/MC4DEB_logo.png) 
+- - -
 ### Index of contents
 * [What is MultiCalib4DEB?](#item1)
 * [How can I use it?](#item2)
