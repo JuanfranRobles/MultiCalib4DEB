@@ -111,7 +111,9 @@ function calibration_options (key, val)
 %                          of the variance of all the solutions considered
 %    'results_filename': The name for the results file. 
 %    'save_results': If the results output images are going to be saved. 
-%
+%    'mat_file': A file with results from where to initialize the
+%                calibration parameters (only useful if pars_init_method 
+%                option is equal to 1 and if there is a result file)
 % Output
 %
 % * no output, but globals are set to values or values are printed to screen
@@ -128,7 +130,7 @@ function calibration_options (key, val)
    global method num_results gen_factor bounds_from_ind max_fun_evals 
    global max_calibration_time  num_runs add_initial refine_initial  
    global refine_best  refine_running refine_run_prob refine_firsts 
-   global verbose verbose_options random_seeds ranges 
+   global verbose verbose_options random_seeds ranges mat_file
    global results_output results_filename save_results
    
    if exist('key','var') == 0
@@ -202,7 +204,7 @@ function calibration_options (key, val)
          results_output = 'Basic'; % The results output style.
          results_filename = 'Default';
          save_results = false; % If results output are saved.
-         
+         mat_file = '';
       case 'method'
          if ~exist('val','var')
             method = 'mm1'; % Select SHADE as the default method.
@@ -412,6 +414,12 @@ function calibration_options (key, val)
          else
             save_results = val;
          end
+      case 'mat_file'
+         if ~exist('val','var')
+            mat_file = ''; 
+         else
+            mat_file = val;
+         end
       otherwise
          if ~strcmp(key, 'inexistent')   
             fprintf(['key ', key, ' is unkown \n\n']);
@@ -510,6 +518,11 @@ function calibration_options (key, val)
             fprintf(['results_filename = ', results_filename,' \n']);
          else
             fprintf('results_filename = unkown \n');
+         end
+         if strcmp(mat_file, '') ~= 0
+            fprintf(['mat_file = ', mat_file,' \n']);
+         else
+            fprintf('mat_file = unkown \n');
          end
    end
 end

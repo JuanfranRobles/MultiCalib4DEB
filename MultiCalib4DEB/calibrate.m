@@ -34,7 +34,7 @@ function [best_sol, info, solutions_set, best_fval] = calibrate
    % option filter = 0 selects filter_nat, which always gives a pass, but still allows for costomized filters in the predict file
   
    global pets pars_init_method method filter covRules results_filename
-   global results_output
+   global results_output mat_file
 
    n_pets = length(pets);
 
@@ -43,12 +43,10 @@ function [best_sol, info, solutions_set, best_fval] = calibrate
 
    if n_pets == 1
       pars_initnm = ['pars_init_', pets{1}];
-      resultsnm = ['results_', pets{1}, '.mat'];
    else
       pars_initnm = 'pars_init_group';
-      resultsnm = 'results_group.mat';
    end
-
+   
    %% set parameters
    if pars_init_method == 0
       if n_pets ~= 1
@@ -57,11 +55,16 @@ function [best_sol, info, solutions_set, best_fval] = calibrate
          [par, metaPar, txtPar] = get_pars(data.(pets{1}), auxData.(pets{1}), metaData.(pets{1}));
       end
    elseif pars_init_method == 1
-      load(resultsnm, 'par');
-      if n_pets == 1
-         [par2, metaPar, txtPar] = feval(pars_initnm, metaData.(pets{1}));
+      if strcmp(mat_file, '')
+         fprintf('The results filename is not properly defined. \n Try to set the filename properly or run the calibration with the options 0 or 2 for the ''pars_init_metod'' option \n');
+         return
       else
-         [par2, metaPar, txtPar] = feval(pars_initnm, metaData);
+         load(mat_file, 'par');
+         if n_pets == 1
+            [par2, metaPar, txtPar] = feval(pars_initnm, metaData.(pets{1}));
+         else
+            [par2, metaPar, txtPar] = feval(pars_initnm, metaData);
+         end
       end
       if length(fieldnames(par.free)) ~= length(fieldnames(par2.free))
          fprintf('The number of parameters in pars.free in the pars_init and in the .mat file are not the same. \n');
