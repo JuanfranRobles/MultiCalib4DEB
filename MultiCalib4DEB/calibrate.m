@@ -32,7 +32,7 @@ function [best_sol, solutions_set, best_fval] = calibrate
    % option filter = 0 selects filter_nat, which always gives a pass, but still allows for costomized filters in the predict file
   
    global pets pars_init_method method filter covRules results_filename
-   global results_output mat_file
+   global results_display mat_file
 
    n_pets = length(pets);
 
@@ -163,7 +163,7 @@ function [best_sol, solutions_set, best_fval] = calibrate
    plot_results(solutions_set, ..., 
             solutions_set.results.txtPar, solutions_set.results.data, ...,
             solutions_set.results.auxData, metaData, ..., 
-            solutions_set.results.txtData, weights, results_output);
+            solutions_set.results.txtData, weights, results_display);
    
    %% check filter
    parPets = parGrp2Pets(best_sol); % convert parameter structure of group of pets to cell string for each pet

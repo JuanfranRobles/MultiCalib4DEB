@@ -96,7 +96,7 @@ function calibration_options (key, val)
 %               (3) Only the free parameters (see 'pars_init_my_pet' file)
 %                   are considered.
 %               The ranges structure is empty by default. 
-%    'results_output': The type of results output to display after
+%    'results_display': The type of results output to display after
 %                      calibration execution. 
 %                      Options: 
 %                      (1) Basic - Does not show results in screen. 
@@ -131,7 +131,7 @@ function calibration_options (key, val)
    global max_calibration_time  num_runs add_initial refine_initial  
    global refine_best  refine_running refine_run_prob refine_firsts 
    global verbose verbose_options random_seeds ranges mat_file
-   global results_output results_filename save_results
+   global results_display results_filename save_results
    
    if exist('key','var') == 0
       key = 'inexistent';
@@ -201,7 +201,7 @@ function calibration_options (key, val)
                                           % update for each run of the
                                           % calibration method. 
          ranges = struct(); % The range struct is empty by default. 
-         results_output = 'Basic'; % The results output style.
+         results_display = 'Basic'; % The results output style.
          results_filename = 'Default';
          save_results = false; % If results output are saved.
          mat_file = '';
@@ -382,21 +382,21 @@ function calibration_options (key, val)
          else
             ranges = val;
          end
-      case 'results_output'
+      case 'results_display'
          if ~exist('val','var')
-            if strcmp(results_output, 'Basic')
-               fprintf(['results_output = ', results_output,' \n']);
-            elseif strcmp(results_output, 'Best')
-                fprintf(['results_output = ', results_output,' \n']);
-            elseif strcmp(results_output, 'Set')
-                fprintf(['results_output = ', results_output,' \n']);
-            elseif strcmp(results_output, 'Complete')
-                fprintf(['results_output = ', results_output,' \n']);
+            if strcmp(results_display, 'Basic')
+               fprintf(['results_display = ', results_display,' \n']);
+            elseif strcmp(results_display, 'Best')
+                fprintf(['results_display = ', results_display,' \n']);
+            elseif strcmp(results_display, 'Set')
+                fprintf(['results_display = ', results_display,' \n']);
+            elseif strcmp(results_display, 'Complete')
+                fprintf(['results_display = ', results_display,' \n']);
             else
-               fprintf('results_output = unkown \n');
+               fprintf('results_display = unkown \n');
             end
          else
-            results_output = val;
+            results_display = val;
          end
       case 'results_filename'
          if ~exist('val','var')
@@ -509,10 +509,10 @@ function calibration_options (key, val)
          else
             fprintf('ranges = unkown \n');
          end
-         if strcmp(results_output, '') ~= 0
-            fprintf(['results_output = ', results_output,' \n']);
+         if strcmp(results_display, '') ~= 0
+            fprintf(['results_display = ', results_display,' \n']);
          else
-            fprintf('results_output = unkown \n');
+            fprintf('results_display = unkown \n');
          end
          if strcmp(results_filename, '') ~= 0
             fprintf(['results_filename = ', results_filename,' \n']);
