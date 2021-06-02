@@ -4,7 +4,7 @@
 %%
 function plot_results(solutions_set, txtPar, data, auxData, metaData, txtData, weights, mode)
 % created 2021 by Juan Francisco Robles
-
+% Edited 2021/06/02 (fix by Bas Kooijman) by Juan Francisco Robles
 %% Syntax
 % <../plot_results.m *plot_results*>(solutions_set, txtPar, data, auxData, metaData, txtData, weights) 
 
@@ -356,10 +356,10 @@ end
 %% Plots the result vales (such as MRE, SMSE, and parameter values on screen
 function plotResulValues(solutions_set, txtPar, data, auxData, metaData, txtData, weights, pets)
    n_pets = length(pets);
-   % Get the best solution index from data. 
+   % Get the best solution index from data.
    best_index = find(solutions_set.pop(:,1)==min(solutions_set.pop(:,1)));
-   par = solutions_set.results.(join(['solution_',num2str(best_index)])).par;
-   metaPar = solutions_set.results.(join(['solution_',num2str(best_index)])).metaPar;
+   par = solutions_set.results.(['solution_',num2str(best_index)]).par; % removed: join
+   metaPar = solutions_set.results.(['solution_',num2str(best_index)]).metaPar; % removed: join
    
    % Calculate prediction. 
    [prdData, metaPar, ~, ~, parPets] = calculatePrediction(par, metaPar, data, auxData, weights, pets);
