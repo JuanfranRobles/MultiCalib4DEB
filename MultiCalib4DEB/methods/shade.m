@@ -2,7 +2,7 @@
 % Finds parameter values for a pet that minimizes the lossfunction using the 
 % Succes History Adaptation of Differential Evolution (SHADE) using a filter
 %%
-function [q, info, solution_set, bsf_fval] = shade(func, par, data, auxData, weights, filternm)
+function [q, solution_set, bsf_fval] = shade(func, par, data, auxData, weights, filternm)
    % created 2020/02/15 by Juan Francisco Robles; 
    % modified 2020/02/17 by Juan Francisco Robles, 2020/02/20, 2020/02/21,
    % 2020/02/24, 2020/02/26, 2020/02/27, 2021/01/14, 2021/03/12,
@@ -59,7 +59,6 @@ function [q, info, solution_set, bsf_fval] = shade(func, par, data, auxData, wei
    % Option settings
    % initiate info setting
    info = struct;
-   info.run = struct;
    
    fileLossfunc = ['lossfunction_', lossfunction];
    format long;
@@ -520,7 +519,7 @@ function [q, info, solution_set, bsf_fval] = shade(func, par, data, auxData, wei
    end
    tEnd = datevec(toc(time_start)./(60*60*24));
    tEnd = tEnd(3:6);
-   info.run_time = tEnd;
+   info.('total_time') = tEnd;
    %% Add best to solutions archive and finish
    if refine_best
       aux = q; 
@@ -528,4 +527,6 @@ function [q, info, solution_set, bsf_fval] = shade(func, par, data, auxData, wei
       auxvec = cell2mat(struct2cell(aux));
       solution_set = updateArchive(solution_set, auxvec(index)', fval);
    end
+   %% Store the information structure into the results set
+   solution_set.runtime_information = info;
 end

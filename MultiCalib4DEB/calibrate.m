@@ -2,12 +2,12 @@
 % Runs the calibration procedure
 
 %%
-function [best_sol, info, solutions_set, best_fval] = calibrate
+function [best_sol, solutions_set, best_fval] = calibrate
    % created 2020/03/07 by Juan Francisco Robles
    % edited 2021/01/15, 2021/01/19, 2021/03/14, 2021/03/22, 2021/05/12,
    % 2021/05/18, 2021/06/02 (fix by Bas Kooijman) by Juan Francisco Robles
    %% Syntax 
-   % [pars, info, outcome, best_fval] = <../calibrate.m *calibrate*>
+   % [pars, outcome, best_fval] = <../calibrate.m *calibrate*>
 
    %% Description
    % Runs the entire calibration procedure
@@ -24,8 +24,6 @@ function [best_sol, info, solutions_set, best_fval] = calibrate
    % Output
    %
    % * par: parameters of the best solution found
-   % * info: iformation about multimodal results (cardinality, average
-   % deviation, coverage, ...)
    % * outcome: set of different solutions found by the algorithm
    % * best_fval: best function value
 
@@ -130,13 +128,13 @@ function [best_sol, info, solutions_set, best_fval] = calibrate
    if ~strcmp(method, 'no')
       if strcmp(method, 'mm1') % With SHADE
          if n_pets == 1
-            [best_sol, info, solutions_set, best_fval] = shade('predict_pets', par, data, auxData, weights, filternm);   % estimate parameters using overwrite
+            [best_sol, solutions_set, best_fval] = shade('predict_pets', par, data, auxData, weights, filternm);   % estimate parameters using overwrite
          else
             fprintf('This mode has not been developed yet. It will be availlable soon \n'); % Not yet
          end
       elseif strcmp(method, 'mm2') % With L-SHADE
          if n_pets == 1
-            [best_sol, info, solutions_set, best_fval] = lshade('predict_pets', par, data, auxData, weights, filternm);   % estimate parameters using overwrite
+            [best_sol, solutions_set, best_fval] = lshade('predict_pets', par, data, auxData, weights, filternm);   % estimate parameters using overwrite
          else
             fprintf('This mode has not been developed yet. It will be availlable soon \n'); % Not yet
          end
