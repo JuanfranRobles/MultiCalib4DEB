@@ -527,7 +527,8 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
       %% If best one wants to be refined with the Nelder Mead's simplex method
       if refine_best
          fprintf('Refining best individual found using local search \n');
-         [q, ~, fval] = local_search('predict_pets', q, data, auxData, weights, filternm);
+         [q, fun_cals, fval] = local_search('predict_pets', q, data, auxData, weights, filternm);
+         nfes = nfes + fun_cals;
          while (1.0 - (fval / bsf_fval)) > 0.0000001
             if verbose
                % Print the best and finish
@@ -536,7 +537,8 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
             % Update the best fitness
             bsf_fval = fval;
             % Launch the local search again
-            [q, ~, fval] = local_search('predict_pets', q, data, auxData, weights, filternm);
+            [q, fun_cals, fval] = local_search('predict_pets', q, data, auxData, weights, filternm);
+            nfes = nfes + fun_cals;
          end
       end
       % Update best solution set
@@ -544,8 +546,8 @@ function [q, info, solution_set, bsf_fval] = lshade(func, par, data, auxData, we
       %% Setting run information
       tEnd = datevec(toc(run_time_start)./(60*60*24));
       tEnd = tEnd(3:6);
-      info.(strcat('run_', num2str(run))).run_time = tEnd;
-      info.(strcat('run_', num2str(run))).fun_evals = nfes;
+      info.(['run_', num2str(run)]).run_time = tEnd;
+      info.(['run_', num2str(run)]).fun_evals = nfes;
    end
    tEnd = datevec(toc(time_start)./(60*60*24));
    tEnd = tEnd(3:6);
