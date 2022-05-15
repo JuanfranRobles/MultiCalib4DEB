@@ -1,3 +1,4 @@
+
 ![image](./MultiCalib4DEB/MC4DEB_logo.png) 
 - - -
 ### Index of contents
@@ -108,15 +109,25 @@ The answer is YES! MultiCalib4DEB has some calibration options both to define an
 <a name="item5"></a>
 ### What to do with the MultiCalib4DEB output?
 
-When a MultiCalib4DEB process finishes, it returns a solutions file where the set with the best parameters combinations are stored in. Furthermore, the results file contains information about the loss function value for the results set, its parameter values, and some other information related with the parameters being calibrated. The fields a results object has is shown in the following table:
+When a MultiCalib4DEB process finishes, it returns a solutions file where the set with the best parameters combinations are stored in. Furthermore, the results file contains information about the loss function value for the results set, its parameter values, and some other information related with the parameters being calibrated. 
+
+The fields a results object has is shown in the following table:
 
 | **Field name** | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| NP             | The number of solutions the MultiCalib4DEB toolbox returns after the calibration process                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| pop            | The set of solutions returned after the calibration process. It contains $NP$ solutions, each of them containing a different set of calibration parameters (those which are free parameters in the pet parameters data file)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| funvalues      | The loss function values for each solution in $pop$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| parnames       | The names of the parameters which were estimated through the calibration process. This is an information field which can be useful to work both with the statistics and charts modules the MultiCalib4DEB toolbox brings                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| results        | It is a MatLab struct field which contains both the general information about the pet whose parameters are calibrated and the specific information for each solution. All the calibration solutions are listed into this field as sub-fields with name "solution_ + solution_number" and contain the "par" and the "metaPar" files with the parameters of the pet in DEBtools M format. Then, the general information is stored below the specific one and contains the "data", "auxData", "txtPar", "metaData", "txtData", and "weights" also in DEBtools M format. The information into this field makes it easy to continue working with one or a set of results after the calibration process. Moreover, the solutions into the 'results' field can be used to generate reports later by using the _results_ module of MultiCalib4DEB | 
+|----------------|--------------------------------------------------------
+| run_x          | The results for each multimomal evolutionary algorithm run  
+| final          | The final result of the calibration process. It is the grouping of the various runs performed during the calibration process. During the grouping process, solutions that are too close to each other in both fitness value and parameter values are discarded (the user can define the tolerances used to discard solutions during the grouping process -see the **group_mmea_runs** method for more information-)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |runtime_information | Information about the execution time and functions evaluations for each run
+
+Each *run* of the multimodal evolutionary algorithm contains the following fields: 
+
+| **Run field name** | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|----------------|--------------------------------------------------------
+| numSolutions | The number of solutions the MultiCalib4DEB toolbox returns after the calibration process    
+| solutionsParameters | The set of solutions returned after the calibration process. It contains $NP$ solutions, each of them containing a different set of calibration parameters (those which are free parameters in the pet parameters data file)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| lossFunctionValues | The loss function values for each solution in $pop$                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| parameterNames | The names of the parameters which were estimated through the calibration process. This is an information field which can be useful to work both with the statistics and charts modules the MultiCalib4DEB toolbox brings   
+| range | Contains the bounds or ranges defined for each calibrated parameter during the calibration process                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| solutionsSet | It is a MatLab struct field which contains both the general information about the pet whose parameters are calibrated and the specific information for each solution. All the calibration solutions are listed into this field as sub-fields with name "solution_ + solution_number" and contain the "par" and the "metaPar" files with the parameters of the pet in DEBtools M format. Then, the general information is stored below the specific one and contains the "data", "auxData", "txtPar", "metaData", "txtData", and "weights" also in DEBtools M format. The information into this field makes it easy to continue working with one or a set of results after the calibration process. Moreover, the solutions into the 'results' field can be used to generate reports later by using the _results_ module of MultiCalib4DEB | 
 
 MultiCalib4DEB is prepared to work with the above-mentioned information both to generate statistical tests and to visualize the results. For this purposes, MultiCalib4DEB has two modules: `statistics` and `charts`. The options for these modules, some examples, and outputs are shown below: 
 
@@ -128,7 +139,7 @@ MultiCalib4DEB is prepared to work with the above-mentioned information both to 
 |              | weighted_scatter   | Plot an scatter (such as in scatter) in which the parameter values are weighted by using its loss function value                                                                                                                                                                                |
 |              | density_scatter    | Plot an scatter (such as in scatter) in which each point is colored by the spatial density of nearby points. The function uses the kernel smoothing function to compute the probability density estimate for each point                                                                         |
 |              | prediction         | Plots a prediction plot, the default plot the DEBtools M toolbox returns after an calibration process                                                                                                                                                                                           |
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+|--------------|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |              | Basic              | Plots prediction results to screen                                                                                                                                                                                                                                                              |
 | plot_results | Best               | Plots the calibration from the parameters of the best solution to screen                                                                                                                                                                                                                        |
 |              | Set                | Plots a grouped calibration for the whole results set together with the average MRE and SMSE to screen |
@@ -138,40 +149,14 @@ Two usage examples of the latter options are:
 
 - **`plot_chart` example**
 ~~~
-global pets 
-
-% The pet to calibrate
-pets = {'Clarias_gariepinus'};
-% Check pet consistence
-check_my_pet(pets);
-
-[data, auxData, metaData, txtData, weights] = mydata_pets; % Get pet data
-
-% Load the solution set (example for Clarias Gariepinus). 
-load('solutionSet_Clarias_gariepinus_20-Apr-2021_20:42:00.mat');
-
 % Plot the chart!
-plot_chart(solutions_set, 'density_hm', {'kap'; 'E_G'}, true, 20);
+plot_chart('results_Clarias_gariepinus_mmea_grouped','density_hm_scatter', {'kap';'v'}, false, 200);
 ~~~
 
 - **`plot_results` example**
 ~~~
-global pets 
-
-pets = {'Clarias_gariepinus'}; % The pet to calibrate
-check_my_pet(pets); % Check pet consistence
-
-% Get pet data
-[data, auxData, metaData, txtData, weights] = mydata_pets;
-
-% Load the solution set (example for Clarias Gariepinus). 
-load('solutionSet_Clarias_gariepinus_20-Apr-2021_20:42:00.mat')
-
 % Plot the solutions!
-plot_results(solutions_set, solutions_set.results.txtPar, ...,
-             solutions_set.results.data, ...,
-             solutions_set.results.auxData, metaData, ..., 
-             solutions_set.results.txtData, weights, 'Set');
+plot_results('results_Lepidomeda_albivallis_mmea', 'Set')
 ~~~
 The first example shows how to use the `plot_chart` method to plot a heat map for parameters "kap" and "E_G" from a results object over the "Clarias_gariepinus" DEBtools base pet by using the 'density_hm' option. The second example shows how to launch the `plot_results` method to plot a report over the set of solutions from the same results object by using the 'Set' option.
 
@@ -181,7 +166,7 @@ As mentioned at the beginning of this section, it is possible to launch an stati
 % Load the results file
 load('solutionsSet_Clarias_gariepinus.mat'); 
 % Generate the statistics report
-statistics_report = generate_statistics(solutions_set); 
+statistics_report = generate_statistics(result.final); 
 ~~~
 The result of the last command (fields of the statistical analysis results and its values) can be seen in the next image.
 ![image](./MultiCalib4DEB/examples/statistical_analysis_example.png) 
